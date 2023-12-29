@@ -27,14 +27,6 @@ def shorten_url(url_item: URLItem):
     url_database[short_url] = url_item.original_url
     return {"short_url": short_url}
 
-@app.get("/expand/{short_url}")
-def expand_url(short_url: str):
-    original_url = url_database.get(short_url)
-    if original_url:
-        return {"original_url": original_url}
-    else:
-        return {"error": "URL not found"}
-
 @app.get("/{short_url}")
 def redirect_to_original(short_url: str):
     original_url = url_database.get(short_url)

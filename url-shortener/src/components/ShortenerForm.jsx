@@ -10,7 +10,7 @@ const ShortenerForm = () => {
       const response = await axios.post('https://urlshortener-peach-one.vercel.app/shorten/', {
         original_url: originalUrl,
       });
-      setShortUrl(`http://urlshortener-peach-one.vercel.app/${response.data.short_url}`);
+      setShortUrl(`https://urlshortener-peach-one.vercel.app/${response.data.short_url}`);
     } catch (error) {
       console.error('Error shortening URL:', error);
     }
