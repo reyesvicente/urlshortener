@@ -1,5 +1,5 @@
-from fastapi import FastAPI, HTTPException
-from fastapi.responses import RedirectResponse
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import secrets
 
@@ -9,6 +9,17 @@ class URLItem(BaseModel):
     original_url: str
 
 url_database = {}
+
+# Enable CORS
+origins = ["*"]  # Update this with your frontend's actual domain in production
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.post("/shorten/")
 def shorten_url(url_item: URLItem):
@@ -22,7 +33,7 @@ def expand_url(short_url: str):
     if original_url:
         return {"original_url": original_url}
     else:
-        raise HTTPException(status_code=404, detail="URL not found")
+        return {"error": "URL not found"}
 
 @app.get("/{short_url}")
 def redirect_to_original(short_url: str):
@@ -30,4 +41,4 @@ def redirect_to_original(short_url: str):
     if original_url:
         return RedirectResponse(url=original_url)
     else:
-        raise HTTPException(status_code=404, detail="URL not found")
+        return {"error": "URL not found"}
