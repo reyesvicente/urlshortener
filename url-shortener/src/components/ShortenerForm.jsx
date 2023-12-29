@@ -6,6 +6,10 @@ const ShortenerForm = () => {
   const [shortUrl, setShortUrl] = useState('');
 
   const shortenUrl = async () => {
+    if (!originalUrl) {
+      alert('Please enter a URL.');  // You can use a more user-friendly UI for validation
+      return;
+    }
     try {
       const response = await axios.post('https://urlshortener-peach-one.vercel.app/shorten/', {
         original_url: originalUrl,
