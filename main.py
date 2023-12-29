@@ -10,8 +10,7 @@ class URLItem(BaseModel):
 
 url_database = {}
 
-# Enable CORS
-origins = ["*"]  # Update this with your frontend's actual domain in production
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
