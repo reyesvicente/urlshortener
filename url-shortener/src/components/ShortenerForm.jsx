@@ -4,12 +4,16 @@ import axios from 'axios';
 const ShortenerForm = () => {
   const [originalUrl, setOriginalUrl] = useState('');
   const [shortUrl, setShortUrl] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const shortenUrl = async () => {
     if (!originalUrl) {
       alert('Please enter a URL.');  // You can use a more user-friendly UI for validation
       return;
     }
+
+    setLoading(true);
+
     try {
       const response = await axios.post('https://urlshortener-peach-one.vercel.app/shorten/', {
         original_url: originalUrl,
@@ -17,6 +21,8 @@ const ShortenerForm = () => {
       setShortUrl(`https://urlshortener-peach-one.vercel.app/${response.data.short_url}`);
     } catch (error) {
       console.error('Error shortening URL:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -32,10 +38,11 @@ const ShortenerForm = () => {
           placeholder="Enter URL to shorten"
         />
         <button
-          className="bg-blue-500 text-white px-4 py-2 rounded"
+          className={`bg-blue-500 text-white px-4 py-2 rounded ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
           onClick={shortenUrl}
+          disabled={loading}
         >
-          Shorten URL
+          {loading ? 'Loading...' : 'Shorten URL'}
         </button>
         {shortUrl && (
           <div className="mt-4">
