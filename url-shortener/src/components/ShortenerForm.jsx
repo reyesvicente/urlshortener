@@ -15,10 +15,10 @@ const ShortenerForm = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post('https://urlshrtner.vercel.app/shorten/', {
+      const response = await axios.post('https://urlshortener.vicentereyes.org/shorten/', {
         original_url: originalUrl,
       });
-      setShortUrl(`https://urlshrtner.vercel.app/${response.data.short_url}`);
+      setShortUrl(`https://urlshortener.vicentereyes.org/${response.data.short_url}`);
     } catch (error) {
       console.error('Error shortening URL:', error);
     } finally {
